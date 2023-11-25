@@ -78,7 +78,11 @@ class App extends React.Component<IProps, IState> {
     } else {
       host = new URL(document.URL).host
     }
-    this.ws = new WebSocket(`ws://${host}/echo`)
+    let proto = 'ws'
+    if (new URL(document.URL).protocol === 'https:') {
+      proto = 'wss'
+    }
+    this.ws = new WebSocket(`${proto}://${host}/echo`);
     this.ws.binaryType = 'arraybuffer'
 
     this.ws.onopen = () => {
